@@ -209,7 +209,7 @@ export class GameService {
   }
 
   // 检查是否为有效移动
-  private isValidMove(row: number, col: number): boolean {
+  public isValidMove(row: number, col: number): boolean {
     // 检查是否在棋盘范围内
     if (!this.isValidPosition(row, col)) {
       return false;

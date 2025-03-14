@@ -1,22 +1,53 @@
-.game-container {
+/* .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+} */
+.game-container {
+  background: #DEB887;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
-
+.game-room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+  padding: 20px;
+}
+.game-table {
+  background: #8B4513;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
 .status {
   margin-bottom: 20px;
   font-size: 1.2em;
 }
-
-.board {
+.board-container {
+  padding: 20px;
+  background: #DEB887;
+  border-radius: 5px;
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* .board {
   position: relative;
   padding:30px;
   background-color: #DEB887;
+} */
+.board {
+  position: relative;
+  background: #DEB887;
+  padding: 10px;
 }
 /* 修正网格线样式 */
-.board::before {
+/* .board::before {
   content: '';
   position: absolute;
   top: 30px;
@@ -26,15 +57,37 @@
   background: 
     repeating-linear-gradient(to right, transparent 0%, transparent calc(50% - 0.5px), #000 calc(50% - 0.5px), #000 calc(50% + 0.5px), transparent calc(50% + 0.5px), transparent 100%) 0 0/30px 30px,
     repeating-linear-gradient(to bottom, transparent 0%, transparent calc(50% - 0.5px), #000 calc(50% - 0.5px), #000 calc(50% + 0.5px), transparent calc(50% + 0.5px), transparent 100%) 0 0/30px 30px;
+} */
+.board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(90deg, rgba(0,0,0,0.7) 1px, transparent 1px) 0 0/30px 30px,
+    linear-gradient(0deg, rgba(0,0,0,0.7) 1px, transparent 1px) 0 0/30px 30px;
+  pointer-events: none;
 }
 
-.board-grid {
+/* .board-grid {
   display: grid;
   grid-template-columns: repeat(19, 30px);
   grid-template-rows: repeat(19, 30px);
   position: relative;
+} */
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(19, 1fr);
+  /* // 棋盘木色 */
+  background-color: #DEB887;  
+  padding: 20px;
+  position: relative;
+  width: 570px;
+  height: 570px;
+  /* gap: 0px; */
 }
-
 .cell {
   position: relative;
   width: 30px;
@@ -42,6 +95,7 @@
   cursor: pointer;
   z-index: 1;
 }
+
 
 /* 修正网格线，使其在格子中间 */
 .cell::before {
@@ -64,8 +118,21 @@
   background-color: #000;
 }
 
+/* .row:first-child.cell{
+  border-left: 1.5px solid #000;
+}
+.row:last-child.cell{
+  border-right: 1.5px solid #000;
+}
+.row.cell:first-child{
+  border-top: 1.5px solid #000;
+}
+.row.cell:last-child{
+  border-bottom: 1.5px solid #000;
+} */
+
 /* 处理边缘格子的线条 */
-.cell:first-child::after {
+/* .cell:first-child::after {
   height: 50%;
   top: 50%;
 }
@@ -83,21 +150,28 @@
 .cell:last-child::before {
   width: 50%;
   right: 50%;
-}
+} */
 
 /* 棋子样式 */
+/* .stone {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+} */
 .stone {
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: 90%;
+  height: 90%;
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  z-index: 99;
 }
 
-.black {
+/* .black {
   background-color: #000;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -105,8 +179,20 @@
 .white {
   background-color: #fff;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+} */
+.stone.black {
+  background: radial-gradient(circle at 35% 35%, #666, #000);
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.2);
 }
 
+.stone.white {
+  background: radial-gradient(circle at 35% 35%, #fff, #ddd);
+  box-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.1);
+}
 /* 星位点 */
 .star-point::before {
   content: '';
@@ -118,16 +204,27 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
+  /* z-index: 100; */
 }
-
+.star-point::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* z-index: 100; */
+}
 .controls {
   margin-top: 20px;
   display: flex;
   gap: 10px;
   justify-content: center;
 }
-.control-btn {
+/* .control-btn {
   padding: 8px 16px;
   font-size: 14px;
   border: none;
@@ -136,15 +233,36 @@
   color: white;
   cursor: pointer;
   transition: background-color 0.2s;
+} */
+.control-btn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #3498db, #2980b9);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.control-btn:hover {
+/* .control-btn:hover {
   background-color: #666;
+} */
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.control-btn:disabled {
+/* .control-btn:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+} */
+.control-btn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .game-over {
@@ -155,7 +273,7 @@
   border-radius: 4px;
 }
 
-.status {
+/* .status {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -163,8 +281,14 @@
   padding: 10px;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 4px;
+} */
+.status {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .player-info {
   font-weight: bold;
 }

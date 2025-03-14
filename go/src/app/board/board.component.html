@@ -1,4 +1,4 @@
-<div class="game-container">
+<!-- <div class="game-container">
   <div class="status">当前玩家: {{getCurrentPlayerText()}}</div>
   <div class="score">
     黑棋提子: {{getScore().black}} | 白棋提子: {{getScore().white}}
@@ -33,5 +33,50 @@
   <div class="game-over" *ngIf="isGameOver()">
     <h3>游戏结束</h3>
     <p>{{getGameResult()}}</p>
+  </div>
+</div> -->
+
+<div class="game-room">
+  <div class="game-table">
+    <div class="game-container">
+      <div class="status">
+        <div class="player-info">当前玩家: {{getCurrentPlayerText()}}</div>
+        <div class="score">
+          黑棋提子: {{getScore().black}} | 白棋提子: {{getScore().white}}
+        </div>
+      </div>
+      
+      <!-- <div class="board-container"> -->
+        <!-- <div class="board"> -->
+          <div class="board-grid">
+            <div *ngFor="let row of getBoard(); let i = index" class="row">
+              <div *ngFor="let cell of row; let j = index"     class="cell"
+                   [class.star-point]="isStarPoint(i, j)"
+                   (click)="makeMove(i, j)">
+                <div *ngIf="cell !== 0" 
+                     class="stone"
+                     [ngClass]="{'black': cell === 1, 'white': cell === 2}">
+                </div>
+              </div>
+            <!-- </div> -->
+          </div>
+        <!-- </div> -->
+      </div>
+
+      <div class="controls">
+        <button class="control-btn" (click)="toggleAI()">
+          {{ isAIEnabled ? '关闭AI' : '开启AI' }}
+        </button>
+        <button class="control-btn" (click)="pass()" [disabled]="isGameOver()">
+          过手
+        </button>
+        <button class="control-btn" (click)="resign()" [disabled]="isGameOver()">
+          投降
+        </button>
+        <button class="control-btn" (click)="undo()" [disabled]="isGameOver()">
+          悔棋
+        </button>
+      </div>
+    </div>
   </div>
 </div>
